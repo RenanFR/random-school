@@ -1,5 +1,7 @@
 package br.com.random.school.model;
 
-public record Student(Long id, String name) {
+import java.util.List;
+
+public record Student(Long id, String name, List<Class> classes) {
 
 }

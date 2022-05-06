@@ -13,8 +13,42 @@
 			</column>
 			<column name="name" type="varchar(250)" />
 		</createTable>
+		<createTable tableName="course">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="course_id_pk" />
+			</column>
+			<column name="title" type="varchar(250)" />
+		</createTable>
+		<createTable tableName="class">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="class_id_pk" />
+			</column>
+			<column name="course_id" type="bigint" />
+		</createTable>
+		<createTable tableName="student_class">
+			<column name="class_id" type="bigint" />
+			<column name="student_id" type="bigint" />
+		</createTable>
 		<addAutoIncrement tableName="student" columnName="id"
 			columnDataType="bigint" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="course" columnName="id"
+			columnDataType="bigint" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="class" columnName="id"
+			columnDataType="bigint" startWith="1" incrementBy="1" />
+		<addForeignKeyConstraint
+			baseColumnNames="course_id" baseTableName="class"
+			constraintName="fk_class_course" referencedColumnNames="id"
+			referencedTableName="course" />
+		<addForeignKeyConstraint
+			baseColumnNames="class_id" baseTableName="student_class"
+			constraintName="fk_student_class_class_id" referencedColumnNames="id"
+			referencedTableName="class" />
+		<addForeignKeyConstraint
+			baseColumnNames="student_id" baseTableName="student_class"
+			constraintName="fk_student_class_student_id"
+			referencedColumnNames="id" referencedTableName="student" />
 		<insert schemaName="public" tableName="student">
 			<column name="name" value="Renan" />
 		</insert>
@@ -22,7 +56,38 @@
 			<column name="name" value="Cristiano" />
 		</insert>
 		<insert schemaName="public" tableName="student">
+			<column name="name" value="Luiz" />
+		</insert>
+		<insert schemaName="public" tableName="student">
 			<column name="name" value="Vera" />
+		</insert>
+		<insert schemaName="public" tableName="course">
+			<column name="title" value="Sistema de Informação" />
+		</insert>
+		<insert schemaName="public" tableName="course">
+			<column name="title" value="Direito" />
+		</insert>
+		<insert schemaName="public" tableName="class">
+			<column name="course_id" valueComputed="(select id from course where title = 'Direito')" />
+		</insert>
+		<insert schemaName="public" tableName="class">
+			<column name="course_id" valueComputed="(select id from course where title = 'Sistema de Informação')" />
+		</insert>
+		<insert schemaName="public" tableName="student_class">
+			<column name="student_id" valueComputed="(select id from student where name = 'Renan')" />
+			<column name="class_id" valueComputed="(select id from class where course_id = (select id from course where title = 'Sistema de Informação') limit 1)" />
+		</insert>
+		<insert schemaName="public" tableName="student_class">
+			<column name="student_id" valueComputed="(select id from student where name = 'Luiz')" />
+			<column name="class_id" valueComputed="(select id from class where course_id = (select id from course where title = 'Sistema de Informação') limit 1)" />
+		</insert>
+		<insert schemaName="public" tableName="student_class">
+			<column name="student_id" valueComputed="(select id from student where name = 'Cristiano')" />
+			<column name="class_id" valueComputed="(select id from class where course_id = (select id from course where title = 'Direito') limit 1)" />
+		</insert>
+		<insert schemaName="public" tableName="student_class">
+			<column name="student_id" valueComputed="(select id from student where name = 'Vera')" />
+			<column name="class_id" valueComputed="(select id from class where course_id = (select id from course where title = 'Direito') limit 1)" />
 		</insert>
 	</changeSet>
 </databaseChangeLog>
