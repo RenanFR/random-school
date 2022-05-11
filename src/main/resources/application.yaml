@@ -10,3 +10,5 @@ spring:
     console.enabled: true
   liquibase:
     change-log: classpath:/db/changelog/db.random-school.xml
+mongock:
+  change-logs-scan-package: br.com.random.school.config.mongo.migrations

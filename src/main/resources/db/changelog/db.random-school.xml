@@ -26,6 +26,7 @@
 					primaryKeyName="class_id_pk" />
 			</column>
 			<column name="course_id" type="bigint" />
+			<column name="opened_at" type="datetime" />
 		</createTable>
 		<createTable tableName="student_class">
 			<column name="class_id" type="bigint" />
@@ -69,9 +70,11 @@
 		</insert>
 		<insert schemaName="public" tableName="class">
 			<column name="course_id" valueComputed="(select id from course where title = 'Direito')" />
+			<column name="opened_at" valueDate="now()"></column>
 		</insert>
 		<insert schemaName="public" tableName="class">
 			<column name="course_id" valueComputed="(select id from course where title = 'Sistema de Informação')" />
+			<column name="opened_at" valueDate="now()"></column>
 		</insert>
 		<insert schemaName="public" tableName="student_class">
 			<column name="student_id" valueComputed="(select id from student where name = 'Renan')" />

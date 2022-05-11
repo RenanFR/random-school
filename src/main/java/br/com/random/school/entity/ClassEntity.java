@@ -1,7 +1,9 @@
 package br.com.random.school.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,8 +32,11 @@ public class ClassEntity {
     @ManyToMany
     @JoinTable(
     		  name = "student_class", 
-    		  joinColumns = @JoinColumn(name = "student_id"), 
-    		  inverseJoinColumns = @JoinColumn(name = "class_id"))
+    		  joinColumns = @JoinColumn(name = "class_id"), 
+    		  inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<StudentEntity> students;
+    
+    @Column(name="opened_at")
+    private LocalDateTime openedAt;
     
 }
